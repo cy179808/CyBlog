@@ -6,8 +6,8 @@
       </el-header>
       <el-main>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="用户名" prop="username">
-            <el-input v-model="ruleForm.username"></el-input>
+          <el-form-item label="用户名" prop="usename">
+            <el-input v-model="ruleForm.usename"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
             <el-input v-model="ruleForm.password"></el-input>
@@ -28,13 +28,13 @@ export default {
   data() {
     return {
       ruleForm: {
-        username: '',
-        password: ''
+        usename: 'cy1798',
+        password: 'cy179808'
       },
       rules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
-          { min: 3, max: 15, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { min: 1, max: 15, message: '长度在 1 到 15 个字符', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'change' }
@@ -46,7 +46,16 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          const _this = this;
+          this.$axios.post("/login",this.ruleForm).then(res => {
+            const jwt = res.headers['authorization']
+            const userInfo = res.data.data;
+
+            _this.$store.commit("SET_TOKEN" , jwt);
+            _this.$store.commit("SET_USERINFO" , userInfo)
+
+            _this.$router.push("/blogs")
+          })
         } else {
           console.log('error submit!!');
           return false;

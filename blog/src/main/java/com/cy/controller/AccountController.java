@@ -1,7 +1,6 @@
 package com.cy.controller;
 
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cy.common.dto.LoginDto;
 import com.cy.common.lang.Result;
@@ -33,7 +32,7 @@ public class AccountController {
         User user = userService.getOne(new QueryWrapper<User>().eq("usename", loginDto.getUsename()));
         Assert.notNull(user, "用户不存在");
 
-        if (!user.getPassword().equals(SecureUtil.md5(loginDto.getPassword()))) {
+        if (!user.getPassword().equals(loginDto.getPassword())) {
             return Result.fail("密码不正确");
         }
         String jwt = jwtUtils.generateToken(user.getId());
