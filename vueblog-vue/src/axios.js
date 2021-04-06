@@ -15,6 +15,7 @@ axios.interceptors.response.use(response => {
         console.log("后置拦截")
         // 当结果的code是否为200的情况
         if (res.code === 200) {
+            console.log(response)
             return response
         } else {
             // 弹窗异常信息
