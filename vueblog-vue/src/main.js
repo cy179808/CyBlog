@@ -4,11 +4,15 @@ import router from './router'
 import store from './store'
 import Element from 'element-ui'
 import axios from 'axios'
+import mavonEditor from 'mavon-editor'
+import './permission.js'
 
+import 'mavon-editor/dist/css/index.css'
 import "element-ui/lib/theme-chalk/index.css"
 import "./axios"
 
 Vue.use(Element)
+Vue.use(mavonEditor)
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
